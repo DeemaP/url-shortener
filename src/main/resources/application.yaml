@@ -1,0 +1,57 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: true
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  data:
+    redis:
+      port: 6379
+      host: localhost
+      ttl: 3600 #seconds
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+
+encoder-values:
+  characters: zNjfnMZR0mxOqLKdHw7I9yCa3Ql2PtXgUVW8vJk6BrEb5sFGhTYSAop4uDce1i
+
+executor-service-properties:
+  core-pool-size: 5
+  max-pool-size: 10
+  queue-capacity: 500
+  keep-alive-time: 30 #seconds
+  thread-name-prefix: shortener-thread
+
+hash-properties:
+  saving-batch-size: 10000
+  generate-batch: 100000
+  hash-saving-sql: "INSERT INTO hash (hash) VALUES (?) ON CONFLICT (hash) DO NOTHING"
+  cache-capacity: 10000
+  max-local-cache-capacity: 12500
+  cache-threshold-rate: 0.2
+
+url-prefix: localhost:8080/
+
+scheduler:
+  url-expiration-period-months: 12
+  delete-expired-urls-cron: "0 0 0 * * *"
+
