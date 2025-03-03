@@ -1,10 +1,9 @@
 # URL Shortener
 
-## Описание
-Этот проект представляет собой сервис сокращения URL-адресов. Вы можете отправить длинный URL,
-получить короткую ссылку и использовать её для быстрого редиректа на оригинальный адрес.
+## Description
+This project is a URL shortening service. You can send a long URL, receive a short link, and use it for quick redirection to the original address.
 
-## Стек технологий
+## Tech Stack
 - Java 17
 - Spring Boot 3
 - PostgreSQL
@@ -13,32 +12,27 @@
 - Gradle
 - Docker & Docker Compose
 
-## Установка и запуск
+## Installation & Run
 
-### 1. Клонирование репозитория
+### 1. Clone the repository
 ```sh
-git clone https://github.com/your-username/url-shortener.git
+git clone https://github.com/DeemaP/url-shortener.git
 cd url-shortener
 ```
 
-### 2. Сборка проекта
-Соберите JAR-файл с помощью Gradle:
-```sh
-./gradlew clean build
-```
-
-### 3. Запуск через Docker Compose
-Если у вас установлен Docker и Docker Compose, просто запустите:
+### 2. Run with Docker Compose
+If you have Docker and Docker Compose installed, simply run:
 ```sh
 docker-compose up -d
 ```
-Это создаст и запустит контейнеры для:
-- PostgreSQL (База данных)
-- Redis (Кеширование)
-- Сервиса URL Shortener
+This will create and start containers for:
+- PostgreSQL (Database)
+- Redis (Caching)
+- URL Shortener Service
 
 ## Swagger UI
-Документация API доступна по адресу:
+API documentation is available at:
 ```
 http://localhost:8080/swagger-ui.html
 ```
+
