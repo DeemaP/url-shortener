@@ -1,0 +1,42 @@
+package urlshortenerservice.util;
+
+import urlshortenerservice.service.HashService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class HashGenerator {
+    private final HashService hashService;
+    private final BaseEncoder baseEncoder;
+    private final ThreadPoolTaskExecutor shortenerTaskExecutor;
+
+    @Value("${hash-properties.generate-batch}")
+    private Long batchSize;
+
+    @Value("${hash-properties.cache-threshold-rate}")
+    private double lowThresholdPercent;
+
+    public CompletableFuture<Void> asyncHashRepositoryRefill() {
+        if (isHashRepositoryLow()) {
+            return CompletableFuture.runAsync(() -> {
+                List<Long> uniqueNumbers = hashService.getUniqueSeqNumbers(batchSize);
+                hashService.saveHashes(baseEncoder.encodeList(uniqueNumbers));
+                log.info("Created and saved {} hashes", uniqueNumbers.size());
+            }, shortenerTaskExecutor);
+        }
+
+        return CompletableFuture.completedFuture(null);
+    }
+
+    private boolean isHashRepositoryLow() {
+        return hashService.getHashRepositorySize() < batchSize * lowThresholdPercent;
+    }
+}
