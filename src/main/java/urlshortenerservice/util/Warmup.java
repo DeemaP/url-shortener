@@ -23,6 +23,6 @@ public class Warmup implements CommandLineRunner {
 
         log.info("Warmup finished correctly. HashRepository and HashCache have enough data.");
         long finish = System.currentTimeMillis();
-        System.out.println("warmup lasts:" + (finish - start));
+        log.info("warmup lasts: {}", finish - start);
     }
 }
